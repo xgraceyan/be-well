@@ -3,6 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
 import { AccountStore } from './store/AccountStore';
+import { PetStore } from './store/PetStore';
 
 const supabase = createClient(import.meta.env.VITE_SUPABASE_API_URL, import.meta.env.VITE_SUPABASE_ANON_KEY);
 
@@ -20,7 +21,7 @@ export default function Login({ onSessionChange }) {
     // Listen for auth state changes
     const { subscription } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
-      
+
       // Set Zustand account store
       if (session && session.user) {
         setAccount({
@@ -28,6 +29,13 @@ export default function Login({ onSessionChange }) {
           account_email: session.user.email || "",
           account_uuid: session.user.id || "",
         });
+
+        setPetInfo({
+            pet_id: session.user.id || "",
+            pet_mood: session.Pet.mood || "",
+            username: session.Pet.username || "",
+        });
+
       }
 
       if (onSessionChange) onSessionChange(session);
@@ -44,7 +52,7 @@ export default function Login({ onSessionChange }) {
   return (
     <>
       {!session ? (
-        <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} />
+        <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} providers={[]} />
       ) : (
         <div>Logged in!</div>
       )}

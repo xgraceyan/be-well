@@ -24,6 +24,7 @@ function Dashboard() {
     if (!error) {
       // Clear Zustand account store
       setAccount({ account_name: "", account_email: "", account_uuid: "" });
+      
 
       navigate("/login");
     } else {

@@ -20,7 +20,7 @@ export default function Login({ onSessionChange }) {
     // Listen for auth state changes
     const { subscription } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
-      
+
       // Set Zustand account store
       if (session && session.user) {
         setAccount({
@@ -44,7 +44,7 @@ export default function Login({ onSessionChange }) {
   return (
     <>
       {!session ? (
-        <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} />
+        <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} providers={[]} />
       ) : (
         <div>Logged in!</div>
       )}

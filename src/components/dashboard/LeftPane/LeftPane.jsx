@@ -4,10 +4,10 @@ import Pet from "./Pet";
 import WeekBar from "./WeekBar";
 import ActionBar from "./ActionBar";
 import grass from "../../../assets/grass.png";
-import { usePetStore } from "../../../store/PetStore";
+import { PetStore } from "../../../store/PetStore";
 
 function LeftPane() {
-  const pets = usePetStore((state) => state);
+  const pets = PetStore((state) => state);
   return (
     <div id="left-pane" className="">
       <div className="container">

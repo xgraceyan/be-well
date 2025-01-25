@@ -30,6 +30,8 @@ export default function Login({ onSessionChange }) {
           account_uuid: session.user.id || "",
         });
 
+        console.log("account_uuid stored", session.user.id);
+
         setPetInfo({
             pet_id: session.user.id || "",
             pet_mood: session.Pet.mood || "",

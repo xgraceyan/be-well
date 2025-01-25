@@ -2,7 +2,6 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { createClient } from "@supabase/supabase-js";
 import { AccountStore } from "../../store/AccountStore";
-import { PetStore } from "../../store/PetStore";
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_API_URL,
@@ -17,7 +16,6 @@ function Dashboard() {
 
   // Zustand account store
   const account_email = AccountStore((state) => state.account_email);
-  const PetStore = PetStore((state) => state.PetStore);
 
   const handleLogout = async () => {
     const { error } = await supabase.auth.signOut();

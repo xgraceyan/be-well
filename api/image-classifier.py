@@ -33,9 +33,15 @@ async def _image_recog(
     
     logger.debug("test outside of loop")
 
+    valid_words = ['medicine', 'pill', 'liquid', 'bottle', 'bottled', 'capsule', 'jar', 'jarred']
+
     for obj in detected_objects:
         logger.debug(obj)
-        if obj.lower() in ['medicine', 'pill', 'liquid'] or 'bottle' in obj.lower():
+        if obj.lower() in valid_words:
             return {'detected': True}
+        
+        for word in valid_words:
+            if word in obj.lower():
+                return {'detected': True}
 
     return {'detected': False}

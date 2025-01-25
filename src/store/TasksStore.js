@@ -1,4 +1,4 @@
-import create from "zustand";
+import { create } from "zustand";
 const supabase = createClient(import.meta.env.VITE_SUPABASE_API_URL, import.meta.env.VITE_SUPABASE_ANON_KEY)
 // impurt user id from the login/auth
 

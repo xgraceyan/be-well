@@ -5,6 +5,9 @@ import { AccountStore } from "../../store/AccountStore";
 
 const supabase = createClient(import.meta.env.VITE_SUPABASE_API_URL, import.meta.env.VITE_SUPABASE_ANON_KEY);
 
+import RightPane from "./RightPane/RightPane";
+import LeftPane from "./LeftPane/LeftPane";
+
 function Dashboard() {
   const navigate = useNavigate();
 
@@ -27,8 +30,8 @@ function Dashboard() {
   return (
     <div id="dashboard">
       <div className="row">
-        <div className="col-8">Hello {account_email}</div>
-        <div className="col-4 bg-danger-subtle">Hi</div>
+        <div className="col-8">{<LeftPane />}</div>
+        <div className="col-4">{<RightPane />}</div>
       </div>
       <button onClick={handleLogout}>Logout</button>
     </div>

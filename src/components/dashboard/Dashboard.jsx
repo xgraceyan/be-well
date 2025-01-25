@@ -4,7 +4,10 @@ import { createClient } from "@supabase/supabase-js";
 import { AccountStore } from "../../store/AccountStore";
 import { PetStore } from "../../store/PetStore";
 
-const supabase = createClient(import.meta.env.VITE_SUPABASE_API_URL, import.meta.env.VITE_SUPABASE_ANON_KEY);
+const supabase = createClient(
+  import.meta.env.VITE_SUPABASE_API_URL,
+  import.meta.env.VITE_SUPABASE_ANON_KEY
+);
 
 import RightPane from "./RightPane/RightPane";
 import LeftPane from "./LeftPane/LeftPane";
@@ -33,8 +36,8 @@ function Dashboard() {
   return (
     <div id="dashboard">
       <div className="row">
-        <div className="col-8">{<LeftPane />}</div>
-        <div className="col-4">{<RightPane />}</div>
+        <div className="col-8 p-0">{<LeftPane />}</div>
+        <div className="col-4 p-0">{<RightPane />}</div>
       </div>
       <button onClick={handleLogout}>Logout</button>
     </div>

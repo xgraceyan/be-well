@@ -1,8 +1,40 @@
 #left-pane {
   height: 100vh;
   overflow-y: hidden !important;
+  overflow-x: hidden !important;
+  background-color: #cbe6ff;
 }
 
 .anteater-img {
   margin-top: 2rem;
+}
+
+#action-bar {
+  margin-top: 450px;
+  position: absolute;
+  left: 33%;
+  transform: translate(-50%, 0);
+  z-index: 100;
+  background-color: rgba(0, 0, 0, 0.4) !important;
+}
+
+.grass-img {
+  position: absolute;
+  width: 66.9%;
+  padding: 0;
+  left: 0;
+  vertical-align: bottom;
+  bottom: 0;
+  margin-top: 250px;
+  overflow-y: hidden !important;
+}
+
+.action-btn {
+  border: 0 !important;
+  color: white !important;
+}
+
+.action-btn:hover {
+  background-color: unset !important;
+  color: rgb(205, 205, 205) !important;
 }

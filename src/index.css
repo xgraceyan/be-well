@@ -1,11 +1,25 @@
-body {
-  font-family: "Nunito", serif;
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
 
+body {
+  font-family: "Nunito", serif !important;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+}
+
+html {
+  font-family: "Nunito", serif !important;
+}
+
+img {
+  user-drag: none;
+  -webkit-user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }
 
 .container {
@@ -18,7 +32,13 @@ body {
 
 .title-container {
   padding: 2rem;
-  font-weight: bold;
+  font-weight: bolder;
+  text-align: center;
+}
+
+.title-container-sm {
+  padding: 1rem;
+  font-weight: bolder;
   text-align: center;
 }
 

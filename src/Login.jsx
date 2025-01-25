@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
+import { AccountStore } from './store/AccountStore';
 
 const supabase = createClient(import.meta.env.VITE_SUPABASE_API_URL, import.meta.env.VITE_SUPABASE_ANON_KEY);
 
 export default function Login({ onSessionChange }) {
   const [session, setSession] = useState(null);
+  const setAccount = AccountStore((state) => state.setAccount);
 
   useEffect(() => {
     // Get the current session
@@ -18,6 +20,16 @@ export default function Login({ onSessionChange }) {
     // Listen for auth state changes
     const { subscription } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
+      
+      // Set Zustand account store
+      if (session && session.user) {
+        setAccount({
+          account_name: session.user.user_metadata.display_name || "",
+          account_email: session.user.email || "",
+          account_uuid: session.user.id || "",
+        });
+      }
+
       if (onSessionChange) onSessionChange(session);
     });
 

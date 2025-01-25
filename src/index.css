@@ -6,3 +6,21 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.container {
+  padding: 2rem !important;
+}
+
+.container-sm {
+  padding: 1rem;
+}
+
+.title-container {
+  padding: 2rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.bg-color {
+  background-color: #e98485;
+}

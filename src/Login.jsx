@@ -3,7 +3,6 @@ import { createClient } from '@supabase/supabase-js';
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
 import { AccountStore } from './store/AccountStore';
-import { PetStore } from './store/PetStore';
 
 const supabase = createClient(import.meta.env.VITE_SUPABASE_API_URL, import.meta.env.VITE_SUPABASE_ANON_KEY);
 
@@ -28,12 +27,6 @@ export default function Login({ onSessionChange }) {
           account_name: session.user.user_metadata.display_name || "",
           account_email: session.user.email || "",
           account_uuid: session.user.id || "",
-        });
-
-        setPetInfo({
-            pet_id: session.user.id || "",
-            pet_mood: session.Pet.mood || "",
-            username: session.Pet.username || "",
         });
 
       }

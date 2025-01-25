@@ -1,5 +1,6 @@
 import React from "react";
 import TasksCard from "./TasksCard";
+import "./rightpane.css";
 
 function RightPane() {
   return (
@@ -13,6 +14,42 @@ function RightPane() {
                 emoji: "💊",
                 title: "Take your meds",
                 desc: "11:40 pm",
+              }}
+            />
+          }
+          {
+            <TasksCard
+              cardData={{
+                emoji: "🍽️",
+                title: "Eat dinner",
+                desc: "11:45 pm",
+              }}
+            />
+          }
+          {
+            <TasksCard
+              cardData={{
+                emoji: "🍽️",
+                title: "Eat dinner",
+                desc: "11:45 pm",
+              }}
+            />
+          }
+          {
+            <TasksCard
+              cardData={{
+                emoji: "🍽️",
+                title: "Eat dinner",
+                desc: "11:45 pm",
+              }}
+            />
+          }
+          {
+            <TasksCard
+              cardData={{
+                emoji: "🍽️",
+                title: "Eat dinner",
+                desc: "11:45 pm",
               }}
             />
           }

@@ -14,3 +14,8 @@
 .task-card-container {
   padding: 0.3rem 0rem 0.3rem 2rem;
 }
+
+#right-pane {
+  height: 100vh;
+  overflow-y: scroll !important;
+}

@@ -5,6 +5,7 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 .container {
@@ -23,4 +24,5 @@ body {
 
 .bg-color {
   background-color: #e98485;
+  /* height: 100vh; */
 }

@@ -1,12 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import "./rightpane.css";
+import TaskSubmitPrompt from "./TaskSubmitPrompt";
 
 function TasksCard(props) {
   const { cardData } = props;
   const { emoji, title, desc } = cardData;
 
+  const [modalActive, setModalActive] = useState(false);
+
+  const activateModal = () => {
+    setModalActive(true);
+  };
+
   return (
-    <div className="card task-card">
+    <div
+      className="card task-card"
+      data-bs-toggle="modal"
+      data-bs-target="#task-modal"
+    >
       <div class="row gap-3 task-card-container">
         <div class="col-1 text-center d-flex align-items-center">
           <h1>{emoji}</h1>

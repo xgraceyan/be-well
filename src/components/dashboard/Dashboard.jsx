@@ -10,6 +10,7 @@ const supabase = createClient(
 
 import RightPane from "./RightPane/RightPane";
 import LeftPane from "./LeftPane/LeftPane";
+import TaskSubmitPrompt from "./RightPane/TaskSubmitPrompt";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -32,6 +33,7 @@ function Dashboard() {
 
   return (
     <div id="dashboard">
+      <TaskSubmitPrompt />
       <div className="row">
         <div className="col-8 p-0">{<LeftPane />}</div>
         <div className="col-4 p-0">{<RightPane />}</div>

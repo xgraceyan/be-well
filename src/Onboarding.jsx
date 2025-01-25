@@ -8,9 +8,27 @@ const supabase = createClient(
 
 export default function Onboarding() {
   const [petName, setPetName] = useState(""); // State for pet name
-  const [medTime, setMedTime] = useState(""); // State for medication time
+  const [medications, setMedications] = useState([]); // Array for medication name-time pairs
 
-  // Handle saving the pet name and medication time
+  // Handle adding a new medication field
+  const handleAddMedication = () => {
+    setMedications([...medications, { name: "", time: "" }]);
+  };
+
+  // Handle updating a medication field
+  const handleMedicationChange = (index, field, value) => {
+    const updatedMedications = [...medications];
+    updatedMedications[index][field] = value;
+    setMedications(updatedMedications);
+  };
+
+  // Handle removing a medication field
+  const handleRemoveMedication = (index) => {
+    const updatedMedications = medications.filter((_, i) => i !== index);
+    setMedications(updatedMedications);
+  };
+
+  // Handle saving onboarding data
   const handleSaveOnboardingData = async () => {
     try {
       // Get the current user
@@ -24,21 +42,47 @@ export default function Onboarding() {
         return;
       }
 
-      // Insert data into the pets table for the current user
-      const { error } = await supabase
-        .from("Pet") // Ensure the table name matches your Supabase table
+      // Insert the pet data
+      const { error: petError } = await supabase
+        .from("Pet")
         .insert({
           pet_id: user.id, // Use the user's UUID as the pet_id
           username: petName,
-          med_time: medTime,
         });
 
-      if (error) {
-        console.error("Error saving onboarding data:", error);
-      } else {
-        console.log("Onboarding data saved successfully!");
-        window.location.href = "/"; // Redirect to the dashboard after saving
+      if (petError) {
+        console.error("Error saving pet data:", petError);
+        return;
       }
+
+      // Insert medication data into the Tasks Log table
+      for (const med of medications) {
+        const today = new Date();
+      const [hours, minutes] = med.time.split(":");
+      const medDate = new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        today.getDate(),
+        parseInt(hours, 10),
+        parseInt(minutes, 10)
+      );
+
+      const { error: taskError } = await supabase
+        .from("Tasks Log")
+        .insert({
+          pet_id: user.id,
+          task_name: med.name,
+          date: medDate.toISOString(), // Convert to ISO string for the database
+        });
+
+        if (taskError) {
+          console.error("Error saving medication data:", taskError);
+          return;
+        }
+      }
+
+      console.log("Onboarding data saved successfully!");
+      window.location.href = "/"; // Redirect to the dashboard after saving
     } catch (err) {
       console.error("Unexpected error:", err);
     }
@@ -59,15 +103,34 @@ export default function Onboarding() {
         </label>
       </div>
       <div>
-        <label>
-          Medication Time:
-          <input
-            type="time"
-            value={medTime}
-            onChange={(e) => setMedTime(e.target.value)}
-            placeholder="Select time for medication"
-          />
-        </label>
+        <h3>Medications</h3>
+        {medications.map((med, index) => (
+          <div key={index} style={{ marginBottom: "10px" }}>
+            <label>
+              Medication Name:
+              <input
+                type="text"
+                value={med.name}
+                onChange={(e) =>
+                  handleMedicationChange(index, "name", e.target.value)
+                }
+                placeholder="Enter medication name"
+              />
+            </label>
+            <label>
+              Time:
+              <input
+                type="time"
+                value={med.time}
+                onChange={(e) =>
+                  handleMedicationChange(index, "time", e.target.value)
+                }
+              />
+            </label>
+            <button onClick={() => handleRemoveMedication(index)}>Remove</button>
+          </div>
+        ))}
+        <button onClick={handleAddMedication}>Add Medication</button>
       </div>
       <button onClick={handleSaveOnboardingData}>Save</button>
     </div>

@@ -13,8 +13,11 @@ const supabase = createClient(
 function RightPane() {
   const [tasks, setTasks] = useState([]); // State to store fetched tasks
   const [loading, setLoading] = useState(true);
-  const setAccount = AccountStore((state) => state.setAccount); // Access Zustand's setAccount function
-  const accountUuid = AccountStore((state) => state.account_uuid); // Access accountUuid from the store
+  const [showModal, setShowModal] = useState(false); // State to control modal visibility
+  const [newTaskName, setNewTaskName] = useState(""); // State for new task name
+  const [newTaskTime, setNewTaskTime] = useState(""); // State for new task time
+  const setAccount = AccountStore((state) => state.setAccount);
+  const accountUuid = AccountStore((state) => state.account_uuid);
 
   useEffect(() => {
     const fetchAccountUuid = async () => {
@@ -29,20 +32,17 @@ function RightPane() {
           return;
         }
 
-        // Extract the user ID (accountUuid) from the session
         const userId = session.user.id;
 
-        // Save accountUuid to AccountStore
         setAccount({
           account_uuid: userId,
-          account_email: session.user.email, // Optionally save the email
+          account_email: session.user.email,
         });
       } catch (err) {
         console.error("Unexpected error fetching account UUID:", err);
       }
     };
 
-    // Fetch account UUID if not already set
     if (!accountUuid) {
       fetchAccountUuid();
     }
@@ -50,7 +50,7 @@ function RightPane() {
 
   useEffect(() => {
     const fetchTasks = async () => {
-      setLoading(true); // Reset loading state when accountUuid changes
+      setLoading(true);
       try {
         const { data, error } = await supabase
           .from("Tasks Log")
@@ -60,28 +60,59 @@ function RightPane() {
 
         if (error) {
           console.error("Error fetching tasks:", error);
-          setTasks([]); // Reset tasks on error
+          setTasks([]);
         } else {
-          console.log("Fetched tasks:", data);
-          setTasks(data || []); // Ensure tasks are set to an empty array if no data
+          setTasks(data || []);
         }
       } catch (err) {
         console.error("Unexpected error fetching tasks:", err);
-        setTasks([]); // Reset tasks on unexpected errors
+        setTasks([]);
       } finally {
-        setLoading(false); // Stop loading after fetch
+        setLoading(false);
       }
     };
 
     if (accountUuid) {
-      fetchTasks(); // Only fetch tasks if accountUuid is defined
+      fetchTasks();
     }
   }, [accountUuid]);
 
   const handleTaskDelete = (deletedTaskId) => {
     setTasks((prevTasks) =>
-      prevTasks.filter((task) => task.completed == "false")
+      prevTasks.filter((task) => task.task_id !== deletedTaskId)
     );
+  };
+
+  const handleAddTask = async (e) => {
+    e.preventDefault();
+
+    try {
+      const { data, error } = await supabase
+        .from("Tasks Log")
+        .insert([
+          {
+            task_name: newTaskName,
+            date: newTaskTime,
+            pet_id: accountUuid,
+          },
+        ])
+        .select();
+
+      if (error) {
+        console.error("Error adding task:", error);
+        return;
+      }
+
+      // Update tasks state with the newly added task
+      setTasks((prevTasks) => [...prevTasks, ...data]);
+
+      // Reset form fields and close modal
+      setNewTaskName("");
+      setNewTaskTime("");
+      setShowModal(false);
+    } catch (err) {
+      console.error("Unexpected error adding task:", err);
+    }
   };
 
   if (!accountUuid) {
@@ -95,10 +126,12 @@ function RightPane() {
   return (
     <div id="right-pane" className="bg-color">
       <div className="container">
+      <div className="tasks-list-container">
         <h1 className="title-container text-light">beWell</h1>
         <div className="d-grid gap-3">
-          {tasks.map((task, index) => {
-            let emoji = "✅"; // Default emoji
+        
+          {tasks.map((task) => {
+            let emoji = "✅";
             if (
               task.task_name.toLowerCase().includes("dinner") ||
               task.task_name.toLowerCase().includes("lunch") ||
@@ -110,10 +143,13 @@ function RightPane() {
             }
 
             return (
-              <div>
-                <TaskSubmitPrompt id={task.task_id} key={task.task_id} taskID={task.task_id} onTaskDelete={handleTaskDelete} petID={accountUuid} />
+              <div key={task.task_id}>
+                <TaskSubmitPrompt
+                  id={task.task_id}
+                  taskID={task.task_id}
+                  onTaskDelete={handleTaskDelete}
+                />
                 <TasksCard
-                  key={index}
                   id={task.task_id}
                   cardData={{
                     emoji: emoji,
@@ -128,7 +164,73 @@ function RightPane() {
             );
           })}
         </div>
+        </div>
+        <div className="add-task-container">
+          <button
+            className="btn btn-primary"
+            onClick={() => setShowModal(true)}
+          >
+            Add Task
+          </button>
+        </div>
       </div>
+
+      {/* Modal for Adding Task */}
+      {showModal && (
+        <div className="modal d-block" tabIndex="-1">
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Add New Task</h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={() => setShowModal(false)}
+                  aria-label="Close"
+                ></button>
+              </div>
+              <form onSubmit={handleAddTask}>
+                <div className="modal-body">
+                  <div className="mb-3">
+                  <span className="task-instr-label">
+                      Task Name
+                    </span>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="taskName"
+                      value={newTaskName}
+                      onChange={(e) => setNewTaskName(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <span className="task-instr-label">
+                      Task Time
+                    </span>
+                    <input
+                      type="datetime-local"
+                      className="form-control"
+                      id="taskTime"
+                      value={newTaskTime}
+                      onChange={(e) => setNewTaskTime(e.target.value)}
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="modal-footer">
+                  <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>
+                    Cancel
+                  </button>
+                  <button type="submit" className="btn btn-primary">
+                    Add Task
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

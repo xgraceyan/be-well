@@ -59,6 +59,10 @@ export default function Onboarding() {
 
             // Insert medication data into the Tasks Log table
             for (const med of medications) {
+                if (!med.name || !med.time) {
+                    continue; // Skip if either field is empty
+                }
+                
                 const today = new Date();
                 const [hours, minutes] = med.time.split(":");
                 const medDate = new Date(

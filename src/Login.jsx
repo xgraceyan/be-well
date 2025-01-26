@@ -23,12 +23,20 @@ export default function Login({ onSessionChange }) {
 
       // Set Zustand account store
       if (session && session.user) {
+        console.log("CLEARING ACCOUNT STORE");
         setAccount({
           account_name: session.user.user_metadata.display_name || "",
           account_email: session.user.email || "",
           account_uuid: session.user.id || "",
         });
 
+        console.log("account_uuid stored", session.user.id);
+
+        setPetInfo({
+            pet_id: session.user.id || "",
+            pet_mood: session.Pet.mood || "",
+            username: session.Pet.username || "",
+        });
       }
 
       if (onSessionChange) onSessionChange(session);

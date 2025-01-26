@@ -1,8 +1,15 @@
 import React, { useState } from "react";
 import imageToBase64 from "image-to-base64/browser";
 import axios from "axios";
+import { createClient } from "@supabase/supabase-js";
 
-export default function TaskSubmitPrompt({ id }) {
+const supabase = createClient(
+  import.meta.env.VITE_SUPABASE_API_URL,
+  import.meta.env.VITE_SUPABASE_ANON_KEY
+);
+
+
+export default function TaskSubmitPrompt({ id, taskID, onTaskDelete }) {
   const [imgUrl, setImgUrl] = useState("");
   const [file, setFile] = useState("");
   const [filePreview, setFilePreview] = useState("");
@@ -33,26 +40,40 @@ export default function TaskSubmitPrompt({ id }) {
       });
   };
 
-  const verifyImage = (img) => {
+  const verifyImage = async (img) => {
     var bodyFormData = new FormData();
-    // bodyFormData.append("text", "hello wrld");
     bodyFormData.append("uploaded_image", img);
-    axios
-      .request({
-        method: "post",
-        url: "/api/image",
-        data: bodyFormData,
-      })
-      .then((res) => {
-        if (res.data.detected) {
-          setVerified(2);
+    
+    try {
+      const res = await axios.post("/api/image", bodyFormData);
+      if (res.data.detected) {
+        // Delete the task from Supabase
+        const { error } = await supabase
+          .from("Tasks Log") // Replace "tasks" with your actual table name
+          .delete()
+          .eq("task_id", taskID); // Use the `id` prop passed to the component
+        
+        if (error) {
+          console.error("Error deleting task:", error);
+          return;
         } else {
-          setVerified(1);
+          console.log(`Task deleted successfully: ` + taskID);
+
+          onTaskDelete(taskID); // Remove the task from the UI
+
+          // refresh the entire page
+          window.location.reload();
+
+          setVerified(2); // Mark as verified
         }
-      }),
-      (error) => {
-        console.log(error);
-      };
+  
+        setVerified(2); // Mark as verified
+      } else {
+        setVerified(1); // Mark as not verified
+      }
+    } catch (error) {
+      console.error("Error verifying image or deleting task:", error);
+    }
   };
 
   return (

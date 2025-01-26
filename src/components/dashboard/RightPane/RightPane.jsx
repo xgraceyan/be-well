@@ -54,7 +54,7 @@ function RightPane() {
       try {
         const { data, error } = await supabase
           .from("Tasks Log")
-          .select("task_name, date")
+          .select("task_id, task_name, date")
           .eq("pet_id", accountUuid)
           .order("date", { ascending: true });
 
@@ -77,6 +77,12 @@ function RightPane() {
       fetchTasks(); // Only fetch tasks if accountUuid is defined
     }
   }, [accountUuid]);
+
+  const handleTaskDelete = (deletedTaskId) => {
+    setTasks((prevTasks) =>
+      prevTasks.filter((task) => task.task_id !== deletedTaskId)
+    );
+  };
 
   if (!accountUuid) {
     return <div>Loading account details...</div>;
@@ -105,10 +111,10 @@ function RightPane() {
 
             return (
               <div>
-                <TaskSubmitPrompt id={index} key={index} />
+                <TaskSubmitPrompt id={task.task_id} key={task.task_id} taskID={task.task_id} onTaskDelete={handleTaskDelete}/>
                 <TasksCard
                   key={index}
-                  id={index}
+                  id={task.task_id}
                   cardData={{
                     emoji: emoji,
                     title: task.task_name,

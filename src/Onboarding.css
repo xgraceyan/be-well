@@ -23,9 +23,39 @@
 }
 .onboarding-window { 
     background-color: #585454;
-    border-radius: 10px;
-    height: 100%;
+    border-radius: 0px 0px 10px 10px;
+    height: 75vh;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
+
+.onboarding-delete-button {
+    background-color: #585454;
+    border-radius: 25px;
+    color: white;
+    padding: 3px 7px 3px 7px;
+    border: none;
+}
+
+.onboarding-buttons {
+    background-color: #494545;
+    color:white;
+    border-radius: 25px;
+    padding: 3px 10px;
+    border: none;
+    margin-bottom: 7px;
+}
+
+.onboarding-save-button {
+    background-color: #494545;
+    color:white;
+    border-radius: 25px;
+    padding: 3px 10px;
+    border: none;
+    position:relative;
+    left: 95%;
+}
+
 
 .pick-name-pet-text {
     color: white;
@@ -64,8 +94,8 @@ input {
     width: 100%;
 }
 
+
 input::placeholder {
-    padding: 9px;
     font-size: 1rem;
 }
 
@@ -74,4 +104,18 @@ input::placeholder {
     font-size: 1.2rem;
     font-weight: 800;
     padding-right: 1rem;
+}
+
+.input-box {
+    background-color: #494545;
+    border-radius: 25px;
+}
+
+input[type=text] {
+    text-indent: 10px;
+    font-size: 16px;
+}
+
+input[type=time] {
+    padding: 0px 15px;
 }

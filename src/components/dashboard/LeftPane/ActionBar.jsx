@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { usePetData } from "../../../UserData";
+import MedsModal from "./MedsModal";
 
 export default function ActionBar({ setChatMessage, setTemp }) {
   const petData = usePetData();
@@ -83,6 +84,8 @@ export default function ActionBar({ setChatMessage, setTemp }) {
         <button
           type="button"
           className="action-btn btn btn-outline-secondary px-5 py-4"
+          data-bs-toggle="modal"
+          data-bs-target="#meds-modal"
         >
           <span className="fs-5">💊</span> <br />
           Meds

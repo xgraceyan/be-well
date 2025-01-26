@@ -6,6 +6,7 @@ import ActionBar from "./ActionBar";
 import grass from "../../../assets/grass.png";
 import { usePetData } from "../../../UserData";
 import ChatBubble from "./ChatBubble";
+import MedsModal from "./MedsModal";
 
 function LeftPane() {
   const petData = usePetData();
@@ -28,6 +29,7 @@ function LeftPane() {
             petData?.username + "    " + getEmojiFromMood(petData?.mood)) ||
             "Loading..."}
         </h1>
+        <MedsModal />
         <WeekBar />
       </div>
       <ActionBar setChatMessage={setChatMessage} setTemp={setTemp} />{" "}

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 import { AccountStore } from "./store/AccountStore";
+import "./Onboarding.css";
 
 const supabase = createClient(
     import.meta.env.VITE_SUPABASE_API_URL,
@@ -9,12 +10,12 @@ const supabase = createClient(
 
 export default function Onboarding() {
     const [petName, setPetName] = useState(""); // State for pet name
-    const [medications, setMedications] = useState([]); // Array for medication name-time pairs
+    const [medications, setMedications] = useState([{ name: "", dose: "", time: "" }, { name: "", dose: "", time: "" }, { name: "", dose: "", time: "" }]);
     const setAccount = AccountStore((state) => state.setAccount); // Retrieve setAccount at the top level
 
     // Handle adding a new medication field
     const handleAddMedication = () => {
-        setMedications([...medications, { name: "", time: "" }]);
+        setMedications([...medications, { name: "", dose: "", time: "" }]);
     };
 
     // Handle updating a medication field
@@ -26,8 +27,11 @@ export default function Onboarding() {
 
     // Handle removing a medication field
     const handleRemoveMedication = (index) => {
-        const updatedMedications = medications.filter((_, i) => i !== index);
-        setMedications(updatedMedications);
+        if (medications.length > 3) {
+            const updatedMedications = medications.filter((_, i) => i !== index);
+            setMedications(updatedMedications);
+        }
+        
     };
 
     // Handle saving onboarding data
@@ -98,50 +102,68 @@ export default function Onboarding() {
     };
 
     return (
-        <div>
-            <h2>Welcome! Let's set up your account</h2>
-            <div>
-                <label>
-                    Pet Name:
-                    <input
-                        type="text"
-                        value={petName}
-                        onChange={(e) => setPetName(e.target.value)}
-                        placeholder="Enter your pet's name"
-                    />
-                </label>
-            </div>
-            <div>
-                <h3>Medications</h3>
-                {medications.map((med, index) => (
-                    <div key={index} style={{ marginBottom: "10px" }}>
-                        <label>
-                            Medication Name:
-                            <input
-                                type="text"
-                                value={med.name}
-                                onChange={(e) =>
-                                    handleMedicationChange(index, "name", e.target.value)
-                                }
-                                placeholder="Enter medication name"
-                            />
-                        </label>
-                        <label>
-                            Time:
-                            <input
-                                type="time"
-                                value={med.time}
-                                onChange={(e) =>
-                                    handleMedicationChange(index, "time", e.target.value)
-                                }
-                            />
-                        </label>
-                        <button onClick={() => handleRemoveMedication(index)}>Remove</button>
+        <div className="onboarding-background">
+                <div className="onboarding-header">
+                    <h2>Welcome!</h2>
+                    <h3>Let's set up your account</h3>
+                </div>
+                <div className="onboarding-window">
+
+                <div className="onboarding-form-div">
+                    <div className="pick-name-container">
+                        <span className="pick-name-pet-text">Pick a name for your pet</span>
+                        <input
+                            type="text"
+                            value={petName}
+                            onChange={(e) => setPetName(e.target.value)}
+                            placeholder="Enter name..."
+                        />
                     </div>
-                ))}
-                <button onClick={handleAddMedication}>Add Medication</button>
+
+                    <div className="medications-container">
+                        <h3>Medications</h3>
+                        {medications.map((med, index) => (
+                            <div className="input-box" key={index} style={{ marginBottom: "10px" }}>
+                                <label>
+                                        Name
+                                    <input
+                                        type="text"
+                                        value={med.name}
+                                        onChange={(e) =>
+                                            handleMedicationChange(index, "name", e.target.value)
+                                        }
+                                        placeholder="Enter medication name..."
+                                    />
+                                </label>
+                                <label>
+                                        Dosage
+                                    <input
+                                        type="text"
+                                        value={med.dose}
+                                        onChange={(e) =>
+                                            handleMedicationChange(index, "dose", e.target.value)
+                                        }
+                                        placeholder="Enter dose..."
+                                    />
+                                </label>
+                                <label>
+                                    Time
+                                    <input
+                                        type="time"
+                                        value={med.time}
+                                        onChange={(e) =>
+                                            handleMedicationChange(index, "time", e.target.value)
+                                        }
+                                    />
+                                </label>
+                                <button className="onboarding-delete-button" onClick={() => handleRemoveMedication(index)}>Delete</button>
+                            </div>
+                        ))}
+                        <button className="onboarding-buttons" onClick={handleAddMedication}>+</button>
+                    </div>
+                    <button className="onboarding-save-button" onClick={handleSaveOnboardingData}>Save</button>
+                </div>
             </div>
-            <button onClick={handleSaveOnboardingData}>Save</button>
         </div>
     );
 }

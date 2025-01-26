@@ -4,6 +4,7 @@ import TasksCard from "./TasksCard";
 import "./rightpane.css";
 import { AccountStore } from "../../../store/AccountStore";
 import TaskSubmitPrompt from "./TaskSubmitPrompt";
+import moment from "moment";
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_API_URL,
@@ -11,10 +12,14 @@ const supabase = createClient(
 );
 
 function RightPane() {
-  const [tasks, setTasks] = useState([]); // State to store fetched tasks
+  const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
-  const setAccount = AccountStore((state) => state.setAccount); // Access Zustand's setAccount function
-  const accountUuid = AccountStore((state) => state.account_uuid); // Access accountUuid from the store
+  const [showModal, setShowModal] = useState(false);
+  const [newTaskName, setNewTaskName] = useState("");
+  const [newTaskTime, setNewTaskTime] = useState("");
+  const [newTaskType, setNewTaskType] = useState("Medication"); // State for new task type
+  const setAccount = AccountStore((state) => state.setAccount);
+  const accountUuid = AccountStore((state) => state.account_uuid);
 
   useEffect(() => {
     const fetchAccountUuid = async () => {
@@ -29,20 +34,17 @@ function RightPane() {
           return;
         }
 
-        // Extract the user ID (accountUuid) from the session
         const userId = session.user.id;
 
-        // Save accountUuid to AccountStore
         setAccount({
           account_uuid: userId,
-          account_email: session.user.email, // Optionally save the email
+          account_email: session.user.email,
         });
       } catch (err) {
         console.error("Unexpected error fetching account UUID:", err);
       }
     };
 
-    // Fetch account UUID if not already set
     if (!accountUuid) {
       fetchAccountUuid();
     }
@@ -50,38 +52,70 @@ function RightPane() {
 
   useEffect(() => {
     const fetchTasks = async () => {
-      setLoading(true); // Reset loading state when accountUuid changes
+      setLoading(true);
       try {
         const { data, error } = await supabase
           .from("Tasks Log")
-          .select("task_id, task_name, date")
+          .select("task_id, task_name, task_type, date")
           .eq("pet_id", accountUuid)
+          .eq("completed", "false")
           .order("date", { ascending: true });
 
         if (error) {
           console.error("Error fetching tasks:", error);
-          setTasks([]); // Reset tasks on error
+          setTasks([]);
         } else {
-          console.log("Fetched tasks:", data);
-          setTasks(data || []); // Ensure tasks are set to an empty array if no data
+          setTasks(data || []);
         }
       } catch (err) {
         console.error("Unexpected error fetching tasks:", err);
-        setTasks([]); // Reset tasks on unexpected errors
+        setTasks([]);
       } finally {
-        setLoading(false); // Stop loading after fetch
+        setLoading(false);
       }
     };
 
     if (accountUuid) {
-      fetchTasks(); // Only fetch tasks if accountUuid is defined
+      fetchTasks();
     }
   }, [accountUuid]);
 
   const handleTaskDelete = (deletedTaskId) => {
     setTasks((prevTasks) =>
-      prevTasks.filter((task) => task.completed == "false")
+      prevTasks.filter((task) => task.task_id !== deletedTaskId)
     );
+  };
+
+  const handleAddTask = async (e) => {
+    e.preventDefault();
+
+    try {
+      const { data, error } = await supabase
+        .from("Tasks Log")
+        .insert([
+          {
+            task_name: newTaskName,
+            date: newTaskTime,
+            task_type: newTaskType, // Include task type
+            pet_id: accountUuid,
+          },
+        ])
+        .select();
+
+      if (error) {
+        console.error("Error adding task:", error);
+        return;
+      }
+
+      setTasks((prevTasks) => [...prevTasks, ...data]);
+
+      setNewTaskName("");
+      setNewTaskTime("");
+      setNewTaskType("Medication"); // Reset task type
+      setShowModal(false);
+    } catch (err) {
+      console.error("Unexpected error adding task:", err);
+    }
   };
 
   if (!accountUuid) {
@@ -95,38 +129,114 @@ function RightPane() {
   return (
     <div id="right-pane" className="bg-color">
       <div className="container">
-        <h1 className="title-container text-light">beWell</h1>
-        <div className="d-grid gap-3">
-          {tasks.map((task, index) => {
-            let emoji = "✅"; // Default emoji
-            if (
-              task.task_name.toLowerCase().includes("dinner") ||
-              task.task_name.toLowerCase().includes("lunch") ||
-              task.task_name.toLowerCase().includes("breakfast")
-            ) {
-              emoji = "🍽️";
-            } else if (task.task_name.toLowerCase().includes("medication")) {
-              emoji = "💊";
-            }
+        <div className="tasks-list-container">
+          <h1 className="title-container text-light">BeWell</h1>
+          <div className="d-grid gap-3">
+            {tasks.map((task) => {
+              let emoji = "🗒️";
+              if (task.task_type === "Meal") {
+                emoji = "🍽️";
+              } else if (task.task_type === "Medication") {
+                emoji = "💊";
+              }
 
-            return (
-              <div>
-                <TaskSubmitPrompt id={task.task_id} key={task.task_id} taskID={task.task_id} onTaskDelete={handleTaskDelete} petID={accountUuid} />
-                <TasksCard
-                  key={index}
-                  id={task.task_id}
-                  cardData={{
-                    emoji: emoji,
-                    title: task.task_name,
-                    desc: new Date(task.date).toLocaleTimeString([], {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    }),
-                  }}
-                />
+              return (
+                <div key={task.task_id}>
+                  <TaskSubmitPrompt
+                    id={task.task_id}
+                    taskID={task.task_id}
+                    onTaskDelete={handleTaskDelete}
+                    petID={accountUuid}
+                  />
+                  <TasksCard
+                    id={task.task_id}
+                    cardData={{
+                      emoji: emoji,
+                      title: task.task_name,
+                      desc: moment(task.date.toString()).utc().format("LT"),
+                    }}
+                  />
+                </div>
+              );
+            })}
+          </div>
+        </div>
+        <div className="add-task-container">
+          <button
+            className="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#add-task-modal"
+          >
+            Add Task
+          </button>
+        </div>
+      </div>
+
+      <div className="modal fade" id="add-task-modal" tabIndex="-1">
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title">Add New Task</h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <form onSubmit={handleAddTask}>
+              <div className="modal-body">
+                <div className="mb-3">
+                  <span className="task-instr-label">Task Name</span>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="taskName"
+                    value={newTaskName}
+                    onChange={(e) => setNewTaskName(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="mb-3">
+                  <span className="task-instr-label">Task Time</span>
+                  <input
+                    type="datetime-local"
+                    className="form-control"
+                    id="taskTime"
+                    value={newTaskTime}
+                    onChange={(e) => setNewTaskTime(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="mb-3">
+                  <span className="task-instr-label">Task Type</span>
+                  <select
+                    className="form-select"
+                    id="taskType"
+                    value={newTaskType}
+                    onChange={(e) => setNewTaskType(e.target.value)}
+                    required
+                  >
+                    <option value="Medication">Medication</option>
+                    <option value="Meal">Meal</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
               </div>
-            );
-          })}
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Cancel
+                </button>
+                <button type="submit" className="btn btn-primary">
+                  Add Task
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>

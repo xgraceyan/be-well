@@ -8,12 +8,12 @@ const supabase = createClient(
   import.meta.env.VITE_SUPABASE_ANON_KEY
 );
 
-
 export default function TaskSubmitPrompt({ id, taskID, onTaskDelete, petID }) {
   const [imgUrl, setImgUrl] = useState("");
   const [file, setFile] = useState("");
   const [filePreview, setFilePreview] = useState("");
   const [verified, setVerified] = useState(0); // 0 = not submitted; 1 = false; 2 = true
+  const [encodedFile, setEncodedFile] = useState("");
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -32,6 +32,7 @@ export default function TaskSubmitPrompt({ id, taskID, onTaskDelete, petID }) {
 
     imageToBase64(filePreview) // Path to the image
       .then((response) => {
+        setEncodedFile(response);
         console.log(response); // "cGF0aC90by9maWxlLmpwZw=="
         verifyImage(response);
       })
@@ -43,16 +44,16 @@ export default function TaskSubmitPrompt({ id, taskID, onTaskDelete, petID }) {
   const verifyImage = async (img) => {
     var bodyFormData = new FormData();
     bodyFormData.append("uploaded_image", img);
-    
+
     try {
       const res = await axios.post("/api/image", bodyFormData);
       if (res.data.detected) {
         // Delete the task from Supabase
         const { error } = await supabase
           .from("Tasks Log") // Replace "tasks" with your actual table name
-          .update({ completed: "true"})
+          .update({ completed: "true", image: img })
           .eq("task_id", taskID); // Use the `id` prop passed to the component
-        
+
         if (error) {
           console.error("Error deleting task:", error);
           return;
@@ -91,7 +92,7 @@ export default function TaskSubmitPrompt({ id, taskID, onTaskDelete, petID }) {
 
           setVerified(2); // Mark as verified
         }
-  
+
         setVerified(2); // Mark as verified
       } else {
         setVerified(1); // Mark as not verified
@@ -131,9 +132,9 @@ export default function TaskSubmitPrompt({ id, taskID, onTaskDelete, petID }) {
                     Image was not verified — try again!
                   </div>
                 )}
-                <label for="formFile" class="form-label">
+                <span className="task-instr-label">
                   Upload your image
-                </label>
+                </span>
                 <input
                   class="form-control"
                   type="file"

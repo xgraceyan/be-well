@@ -12,7 +12,7 @@
 #action-bar {
   margin-top: 450px;
   position: absolute;
-  left: 33%;
+  left: 50%;
   transform: translate(-50%, 0);
   z-index: 100;
   background-color: rgba(0, 0, 0, 0.4) !important;
@@ -20,7 +20,7 @@
 
 .grass-img {
   position: absolute;
-  width: 66.9%;
+  width: 100%;
   padding: 0;
   left: 0;
   vertical-align: bottom;

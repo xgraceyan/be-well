@@ -1,0 +1,77 @@
+.onboarding-background {
+    background-color: #AA7071;
+    height: 100vh;
+    padding: 2rem;
+}
+
+.onboarding-header {
+    background-color: #494545;
+    color: #FFFFFF;
+    text-align: center;
+    padding: 1rem;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.onboarding-header h2 {
+    font-weight: 800;
+    margin-bottom: 0.2rem;
+}
+
+.onboarding-header h3 {
+    font-weight: 700;
+}
+.onboarding-window { 
+    background-color: #585454;
+    border-radius: 10px;
+    height: 100%;
+}
+
+.pick-name-pet-text {
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 800;
+    padding-right: 1rem;
+}
+
+label {
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 800;
+    padding-right: 1rem;
+    padding: 1rem;
+}
+
+.pick-name-container {
+    width: 100%;
+    display: flex;
+    white-space: nowrap;
+    padding-bottom: 3rem;
+}
+
+.onboarding-form-div {
+    padding: 1rem;
+}
+
+input {
+    border: none; 
+    border-radius: 20px; 
+    background-color: #3a3a3a; 
+    color: white; 
+    font-size: 1rem; 
+    outline: none; 
+    box-shadow: none; 
+    width: 100%;
+}
+
+input::placeholder {
+    padding: 9px;
+    font-size: 1rem;
+}
+
+.medications-container h3 {
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 800;
+    padding-right: 1rem;
+}

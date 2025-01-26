@@ -20,7 +20,7 @@ function LeftPane() {
         </h1>
         <WeekBar />
       </div>
-      <ActionBar setChatMessage={setChatMessage} />{" "}
+      <ActionBar setChatMessage={setChatMessage} setTemp={setTemp} />{" "}
       {/* Pass handler to ActionBar */}
       <img src={grass} alt="" height="300px" className="grass-img" />
       <Pet />

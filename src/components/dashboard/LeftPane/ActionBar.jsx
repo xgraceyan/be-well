@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { usePetData } from "../../../UserData";
 
-export default function ActionBar({ setChatMessage }) {
+export default function ActionBar({ setChatMessage, setTemp }) {
   const petData = usePetData();
   const [count, setCount] = useState(0);
 
@@ -56,7 +56,13 @@ export default function ActionBar({ setChatMessage }) {
     setChatMessage(message); // Update chat message in LeftPane
   };
 
-  const handleFeed = () => [setChatMessage("❤️ 🐜")];
+  const handleFeed = () => {
+    setChatMessage("❤️ 🐜");
+    setTemp(true);
+    setTimeout(() => {
+      setChatMessage("");
+    }, 3000);
+  };
 
   return (
     <div id="action-bar" className="rounded px-5">

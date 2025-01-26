@@ -26,7 +26,6 @@ function Dashboard() {
       console.log("CLEARING ACCOUNT STORE");
 
       setAccount({ account_name: "", account_email: "", account_uuid: "" });
-      
 
       navigate("/login");
     } else {
@@ -36,7 +35,6 @@ function Dashboard() {
 
   return (
     <div id="dashboard">
-      <TaskSubmitPrompt />
       <div className="row">
         <div className="col-8 p-0">{<LeftPane />}</div>
         <div className="col-4 p-0">{<RightPane />}</div>

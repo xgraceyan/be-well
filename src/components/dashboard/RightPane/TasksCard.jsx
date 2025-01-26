@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import "./rightpane.css";
 import TaskSubmitPrompt from "./TaskSubmitPrompt";
 
-function TasksCard(props) {
-  const { cardData } = props;
+function TasksCard({ id, cardData }) {
+  //   const { cardData } = props;
   const { emoji, title, desc } = cardData;
 
   const [modalActive, setModalActive] = useState(false);
@@ -16,7 +16,7 @@ function TasksCard(props) {
     <div
       className="card task-card"
       data-bs-toggle="modal"
-      data-bs-target="#task-modal"
+      data-bs-target={"#task-modal-" + id}
     >
       <div class="row gap-3 task-card-container">
         <div class="col-1 text-center d-flex align-items-center">

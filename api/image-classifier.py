@@ -1,6 +1,6 @@
 from typing import Union
 
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, UploadFile, Form
 import base64
 from google.cloud import vision
 import logging
@@ -15,13 +15,14 @@ async def read_root():
     return {"Hello": "World"}
 
 
-@app.post('/image-recog')
-async def _image_recog(
-    uploaded_image: UploadFile = File(...),
+@app.post('/image')
+async def image_recog(
+    uploaded_image: str = Form(),
 ):
-    image_data = await uploaded_image.read()
+    print("hello")
+    image_data = base64.b64decode(uploaded_image)
 
-    encoded_image = base64.b64encode(image_data).decode('utf-8')
+    # encoded_image = base64.b64encode(image_data).decode('utf-8')
 
     client = vision.ImageAnnotatorClient()
 

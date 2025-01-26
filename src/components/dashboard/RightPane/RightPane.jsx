@@ -3,6 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 import TasksCard from "./TasksCard";
 import "./rightpane.css";
 import { AccountStore } from "../../../store/AccountStore";
+import TaskSubmitPrompt from "./TaskSubmitPrompt";
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_API_URL,
@@ -103,17 +104,21 @@ function RightPane() {
             }
 
             return (
-              <TasksCard
-                key={index}
-                cardData={{
-                  emoji: emoji,
-                  title: task.task_name,
-                  desc: new Date(task.date).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  }),
-                }}
-              />
+              <div>
+                <TaskSubmitPrompt id={index} key={index} />
+                <TasksCard
+                  key={index}
+                  id={index}
+                  cardData={{
+                    emoji: emoji,
+                    title: task.task_name,
+                    desc: new Date(task.date).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    }),
+                  }}
+                />
+              </div>
             );
           })}
         </div>

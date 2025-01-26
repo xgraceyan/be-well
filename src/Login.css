@@ -1,0 +1,139 @@
+.body {
+  font-family: 'Arial', sans-serif;
+  background-color: #E98485;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.login-header {
+    color: white;
+    text-align: center;
+    position: relative;
+    width: 100%;
+    padding: 25px;
+    top: 0;
+    background-color: #C67979;
+    font-family: fantasy !important; 
+    font-size: 50px !important;
+    display: block;
+}
+.login-text {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+}
+.auth-container {
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  place-items: center;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 400px;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-top: 30px;
+}
+
+.auth-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333;
+}
+
+.auth-error {
+  color: red;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.auth-input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  margin-bottom: 20px;
+  background-color: white;
+  border-width: 2px;
+  margin-top: 5px;
+  color:black;
+}
+
+.button-redirect {
+    font-size: 12px;
+    margin: 0;
+}
+
+.auth-button {
+  background-color: #7EF293;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  display:block;
+  margin:auto;
+  width: 40%;
+  -webkit-text-stroke-width: 0.5px;
+  -webkit-text-stroke-color: #d1caca;
+  font-weight: bold;
+}
+
+.auth-button:hover {
+  background-color: #32753f;
+}
+
+.auth-footer {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.auth-link {
+  color: #007bff;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 12px;
+}
+
+.auth-link:hover {
+  color: #0056b3;
+}
+
+.semi-circle {
+    width: 30vw;
+    height: 100px; /* Half the width for a perfect semi-circle */
+    background-color: #317647;
+    border-radius: 0 100% 0 0; /* Top corners rounded, bottom corners flat */
+    bottom: 0;
+    position: fixed;
+    left: 0;
+}
+
+.auth-image {
+    max-width: 20vw;
+    max-height: 20vw;
+    bottom: 1vw;
+    position: fixed;
+    left: 3vw;
+    z-index: 100;
+}

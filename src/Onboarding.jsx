@@ -104,8 +104,8 @@ export default function Onboarding() {
     return (
         <div className="onboarding-background">
                 <div className="onboarding-header">
-                    <h2>Welcome!</h2>
-                    <h3>Let's set up your account</h3>
+                    <p>Welcome!</p>
+                    <p>Let's set up your account</p>
                 </div>
                 <div className="onboarding-window">
 

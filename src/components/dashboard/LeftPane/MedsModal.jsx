@@ -4,6 +4,7 @@ import { supabase } from "../../../supabase/supabaseClient";
 
 export default function MedsModal() {
   const [medsData, setMedsData] = useState();
+  const [userId, setUserId] = useState(null);
 
   let startTimestamp = moment().hour(0).minute(0).toISOString(true);
   let endTimestamp = moment().hour(23).minute(59).second(59).toISOString(true);
@@ -13,23 +14,50 @@ export default function MedsModal() {
   endTimestamp = endTimestamp.substring(0, endTimestamp.length - 6);
 
   useEffect(() => {
-    const getMedsData = async (user) => {
+    const fetchUserId = async () => {
+      const {
+        data: { session },
+        error,
+      } = await supabase.auth.getSession();
+
+      if (error) {
+        console.error("Error fetching user session:", error);
+        return;
+      }
+
+      if (session) {
+        console.log("User ID:", session.user.id);
+        setUserId(session.user.id); // Set the user_id from the session
+      }
+    };
+
+    fetchUserId();
+  }, []);
+
+  useEffect(() => {
+    const getMedsData = async () => {
+      if (!userId) return; 
+
       try {
+        console.log("INSIDE MEDS DATA");
+        console.log("USER ID:", userId);
+        
         const { data, error } = await supabase
           .from("Tasks Log")
           .select("*")
           .eq("task_type", "Medication")
+          .eq("pet_id", userId) // Filter by user_id
           .gte("date", startTimestamp)
           .lt("date", endTimestamp)
           .order("date", { ascending: false });
 
         if (error) {
-          console.error("Error", error);
+          console.error("Error fetching medication tasks:", error);
         } else {
           setMedsData(data);
         }
       } catch (err) {
-        console.error("Unexpected error:", err);
+        console.error("Unexpected error fetching medication tasks:", err);
       }
     };
 

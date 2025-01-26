@@ -61,6 +61,7 @@ export default function ActionBar({ setChatMessage, setTemp }) {
     setTemp(true);
     setTimeout(() => {
       setChatMessage("");
+      setTemp(false);
     }, 3000);
   };
 

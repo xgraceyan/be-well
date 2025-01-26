@@ -130,7 +130,7 @@ function RightPane() {
     <div id="right-pane" className="bg-color">
       <div className="container">
         <div className="tasks-list-container">
-          <h1 className="title-container text-light">beWell</h1>
+          <h1 className="title-container text-light">BeWell</h1>
           <div className="d-grid gap-3">
             {tasks.map((task) => {
               let emoji = "🗒️";
@@ -180,7 +180,7 @@ function RightPane() {
               <button
                 type="button"
                 className="btn-close"
-                onClick={() => setShowModal(false)}
+                data-bs-dismiss="modal"
                 aria-label="Close"
               ></button>
             </div>
@@ -227,7 +227,7 @@ function RightPane() {
                 <button
                   type="button"
                   className="btn btn-secondary"
-                  onClick={() => setShowModal(false)}
+                  data-bs-dismiss="modal"
                 >
                   Cancel
                 </button>

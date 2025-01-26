@@ -16,7 +16,7 @@ function LeftPane() {
     if (mood == 5) return "😆";
     if (mood == 4) return "😁";
     if (mood == 3) return "🙂";
-    if (mood == 2) return "😕";
+    if (mood == 2) return "🙃";
     if (mood == 1) return "😢";
   };
 

@@ -164,82 +164,81 @@ function RightPane() {
         <div className="add-task-container">
           <button
             className="btn btn-primary"
-            onClick={() => setShowModal(true)}
+            data-bs-toggle="modal"
+            data-bs-target="#add-task-modal"
           >
             Add Task
           </button>
         </div>
       </div>
 
-      {showModal && (
-        <div className="modal d-block" tabIndex="-1">
-          <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Add New Task</h5>
+      <div className="modal fade" id="add-task-modal" tabIndex="-1">
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title">Add New Task</h5>
+              <button
+                type="button"
+                className="btn-close"
+                onClick={() => setShowModal(false)}
+                aria-label="Close"
+              ></button>
+            </div>
+            <form onSubmit={handleAddTask}>
+              <div className="modal-body">
+                <div className="mb-3">
+                  <span className="task-instr-label">Task Name</span>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="taskName"
+                    value={newTaskName}
+                    onChange={(e) => setNewTaskName(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="mb-3">
+                  <span className="task-instr-label">Task Time</span>
+                  <input
+                    type="datetime-local"
+                    className="form-control"
+                    id="taskTime"
+                    value={newTaskTime}
+                    onChange={(e) => setNewTaskTime(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="mb-3">
+                  <span className="task-instr-label">Task Type</span>
+                  <select
+                    className="form-select"
+                    id="taskType"
+                    value={newTaskType}
+                    onChange={(e) => setNewTaskType(e.target.value)}
+                    required
+                  >
+                    <option value="Medication">Medication</option>
+                    <option value="Meal">Meal</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+              </div>
+              <div className="modal-footer">
                 <button
                   type="button"
-                  className="btn-close"
+                  className="btn btn-secondary"
                   onClick={() => setShowModal(false)}
-                  aria-label="Close"
-                ></button>
+                >
+                  Cancel
+                </button>
+                <button type="submit" className="btn btn-primary">
+                  Add Task
+                </button>
               </div>
-              <form onSubmit={handleAddTask}>
-                <div className="modal-body">
-                  <div className="mb-3">
-                    <span className="task-instr-label">Task Name</span>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="taskName"
-                      value={newTaskName}
-                      onChange={(e) => setNewTaskName(e.target.value)}
-                      required
-                    />
-                  </div>
-                  <div className="mb-3">
-                    <span className="task-instr-label">Task Time</span>
-                    <input
-                      type="datetime-local"
-                      className="form-control"
-                      id="taskTime"
-                      value={newTaskTime}
-                      onChange={(e) => setNewTaskTime(e.target.value)}
-                      required
-                    />
-                  </div>
-                  <div className="mb-3">
-                    <span className="task-instr-label">Task Type</span>
-                    <select
-                      className="form-select"
-                      id="taskType"
-                      value={newTaskType}
-                      onChange={(e) => setNewTaskType(e.target.value)}
-                      required
-                    >
-                      <option value="Medication">Medication</option>
-                      <option value="Meal">Meal</option>
-                      <option value="Other">Other</option>
-                    </select>
-                  </div>
-                </div>
-                <div className="modal-footer">
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    onClick={() => setShowModal(false)}
-                  >
-                    Cancel
-                  </button>
-                  <button type="submit" className="btn btn-primary">
-                    Add Task
-                  </button>
-                </div>
-              </form>
-            </div>
+            </form>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }

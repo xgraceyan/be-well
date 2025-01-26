@@ -1,6 +1,6 @@
 .body {
-  font-family: 'Arial', sans-serif;
-  background-color: #E98485;
+  font-family: "Arial", sans-serif;
+  background-color: #e98485;
   margin: 0;
   padding: 0;
   display: flex;
@@ -10,20 +10,20 @@
 }
 
 .login-header {
-    color: white;
-    text-align: center;
-    position: relative;
-    width: 100%;
-    padding: 25px;
-    top: 0;
-    background-color: #C67979;
-    font-family: fantasy !important; 
-    font-size: 50px !important;
-    display: block;
+  color: white;
+  text-align: center;
+  position: relative;
+  width: 100%;
+  padding: 25px;
+  top: 0;
+  background-color: #c67979;
+  font-weight: bolder !important;
+  font-size: 50px !important;
+  display: block;
 }
 .login-text {
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
 }
 .auth-container {
   justify-content: center;
@@ -73,24 +73,24 @@
   background-color: white;
   border-width: 2px;
   margin-top: 5px;
-  color:black;
+  color: black;
 }
 
 .button-redirect {
-    font-size: 12px;
-    margin: 0;
+  font-size: 12px;
+  margin: 0;
 }
 
 .auth-button {
-  background-color: #7EF293;
+  background-color: #7ef293;
   color: white;
   padding: 10px;
   border: none;
   border-radius: 5px;
   font-size: 16px;
   cursor: pointer;
-  display:block;
-  margin:auto;
+  display: block;
+  margin: auto;
   width: 40%;
   -webkit-text-stroke-width: 0.5px;
   -webkit-text-stroke-color: #d1caca;
@@ -120,20 +120,20 @@
 }
 
 .semi-circle {
-    width: 30vw;
-    height: 100px; /* Half the width for a perfect semi-circle */
-    background-color: #317647;
-    border-radius: 0 100% 0 0; /* Top corners rounded, bottom corners flat */
-    bottom: 0;
-    position: fixed;
-    left: 0;
+  width: 30vw;
+  height: 100px; /* Half the width for a perfect semi-circle */
+  background-color: #317647;
+  border-radius: 0 100% 0 0; /* Top corners rounded, bottom corners flat */
+  bottom: 0;
+  position: fixed;
+  left: 0;
 }
 
 .auth-image {
-    max-width: 20vw;
-    max-height: 20vw;
-    bottom: 1vw;
-    position: fixed;
-    left: 3vw;
-    z-index: 100;
+  max-width: 20vw;
+  max-height: 20vw;
+  bottom: 1vw;
+  position: fixed;
+  left: 3vw;
+  z-index: 100;
 }

@@ -1,5 +1,5 @@
 import React from "react";
-
+import { printMoodWords } from "../../../chat";
 export default function ActionBar() {
   return (
     <div id="action-bar" className="rounded px-5">
@@ -22,13 +22,17 @@ export default function ActionBar() {
           <span className="fs-5">💊</span> <br />
           Meds
         </button>
+
+        {/* <button onclick="printWords()">Click Me to Print Words</button> */}
         <button
           type="button"
           className="action-btn btn btn-outline-secondary px-5 py-4"
+          onclick="printMoodWords()"
         >
           <span className="fs-5">💬</span> <br />
           Chat
         </button>
+        
       </div>
     </div>
   );

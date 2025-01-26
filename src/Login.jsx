@@ -24,6 +24,7 @@ export default function Login({ onSessionChange }) {
 
       // Set Zustand account store
       if (session && session.user) {
+        console.log("CLEARING ACCOUNT STORE");
         setAccount({
           account_name: session.user.user_metadata.display_name || "",
           account_email: session.user.email || "",

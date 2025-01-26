@@ -27,7 +27,7 @@ export default function ActionBar() {
         <button
           type="button"
           className="action-btn btn btn-outline-secondary px-5 py-4"
-          onclick="printMoodWords()"
+          onClick={printMoodWords}
         >
           <span className="fs-5">💬</span> <br />
           Chat

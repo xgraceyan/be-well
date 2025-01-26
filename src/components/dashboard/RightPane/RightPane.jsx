@@ -132,7 +132,7 @@ function RightPane() {
           <h1 className="title-container text-light">beWell</h1>
           <div className="d-grid gap-3">
             {tasks.map((task) => {
-              let emoji = "✅";
+              let emoji = "🗒️";
               if (
                 task.task_name.toLowerCase().includes("dinner") ||
                 task.task_name.toLowerCase().includes("lunch") ||

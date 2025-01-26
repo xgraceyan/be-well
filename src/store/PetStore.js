@@ -1,5 +1,4 @@
-import { ModuleNode } from "vite";
-import create from "zustand";
+import { create } from "zustand";
 
 export const PetStore = create((set) => ({
   pet_id: "",

@@ -1,62 +1,57 @@
-import React, { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { createClient } from "@supabase/supabase-js";
 import { AccountStore } from "./store/AccountStore";
-import { PetStore } from "./store/PetStore";
-//import { TasksStore } from "./store/TasksStore";
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_API_URL,
   import.meta.env.VITE_SUPABASE_ANON_KEY
 );
 
+export function usePetData() {
+  const [petData, setPetData] = useState(null);
+  const setAccount = AccountStore((state) => state.setAccount);
 
- function getData() {
+  useEffect(() => {
+    const fetchAllData = async () => {
+      try {
+        const {
+          data: { session },
+          error,
+        } = await supabase.auth.getSession();
 
-    const setAccount = AccountStore((state) => state.setAccount);
-    const setPetInfo = PetStore((state) => state.setPetInfo)
-    const setTasks = TasksStore((state) => state.setTasksInfo)
-    const accountUuid = AccountStore((state) => state.account_uuid); // Access accountUuid from the store
+        if (error || !session) {
+          console.error("Error fetching session or no session found:", error);
+          return;
+        }
 
-    useEffect(() => {
-        const fetchAllData = async () => {
-            try {
-                const {
-                  data: { session },
-                  error,
-                } = await supabase.auth.getSession();
-        
-                if (error || !session) {
-                  console.error("Error fetching session or no session found:", error);
-                  return;
-                }
-        
-                // Extract the user ID (accountUuid) from the session
-                const userId = session.user.id;
-        
-                // Save accountUuid to AccountStore
-                setAccount({
-                  account_uuid: userId,
-                  account_email: session.user.email, // Optionally save the email
-                });
-              } catch (err) {
-                console.error("Unexpected error fetching account UUID:", err);
-              }
-              if (userId) {
-                var collection = []
-                collection.concat(userId)
-                collection.concat(session.Pet.name)
-                collection.concat(session.Pet.mood)
-                collection.concat(session)
+        const userId = session.user.id;
 
-                return collection
-              }
+        // Save accountUuid to AccountStore
+        setAccount({
+          account_uuid: userId,
+          account_email: session.user.email,
+        });
 
-        };
+        // Call supabase to get pet name via accountUuid
+        const { data: pet, error: petError } = await supabase
+          .from("Pet")
+          .select("username")
+          .eq("pet_id", userId)
+          .single();
 
-        
-    }) 
-    if (accountUuid) {
-        fetchAllData();
-    }
+        if (petError) {
+          console.error("Error fetching pet data:", petError);
+          return;
+        }
 
+        setPetData(pet);
+      } catch (err) {
+        console.error("Unexpected error fetching account UUID:", err);
+      }
+    };
+
+    fetchAllData();
+  }, [setAccount]); // Run only when `setAccount` changes
+
+  return petData;
 }

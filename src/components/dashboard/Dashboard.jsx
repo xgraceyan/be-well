@@ -17,7 +17,6 @@ function Dashboard() {
 
   // Zustand account store
   const account_email = AccountStore((state) => state.account_email);
-  const PetStore = PetStore((state) => state.PetStore);
 
   const handleLogout = async () => {
     const { error } = await supabase.auth.signOut();

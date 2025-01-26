@@ -9,7 +9,7 @@ const supabase = createClient(
 );
 
 
-export default function TaskSubmitPrompt({ id, taskID, onTaskDelete }) {
+export default function TaskSubmitPrompt({ id, taskID, onTaskDelete, petID }) {
   const [imgUrl, setImgUrl] = useState("");
   const [file, setFile] = useState("");
   const [filePreview, setFilePreview] = useState("");
@@ -60,6 +60,31 @@ export default function TaskSubmitPrompt({ id, taskID, onTaskDelete }) {
           console.log(`Task deleted successfully: ` + taskID);
 
           onTaskDelete(taskID); // Remove the task from the UI
+
+          // increase the mood of the pet by 1 as long as the mood is less than 5
+          const { data, error } = await supabase
+            .from("Pet")
+            .select("mood")
+            .eq("pet_id", petID);
+
+          if (error) {
+            console.error("Error fetching pet mood:", error);
+            return;
+          }
+
+          const mood = data[0].mood;
+
+          if (mood < 5) {
+            const { data, error } = await supabase
+              .from("Pet")
+              .update({ mood: mood + 1 })
+              .eq("pet_id", petID);
+
+            if (error) {
+              console.error("Error updating pet mood:", error);
+              return;
+            }
+          }
 
           // refresh the entire page
           window.location.reload();

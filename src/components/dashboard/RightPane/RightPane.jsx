@@ -111,7 +111,7 @@ function RightPane() {
 
             return (
               <div>
-                <TaskSubmitPrompt id={task.task_id} key={task.task_id} taskID={task.task_id} onTaskDelete={handleTaskDelete}/>
+                <TaskSubmitPrompt id={task.task_id} key={task.task_id} taskID={task.task_id} onTaskDelete={handleTaskDelete} petID={accountUuid} />
                 <TasksCard
                   key={index}
                   id={task.task_id}

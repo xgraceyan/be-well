@@ -35,7 +35,7 @@ export function usePetData() {
         // Call supabase to get pet name via accountUuid
         const { data: pet, error: petError } = await supabase
           .from("Pet")
-          .select("username")
+          .select("username, mood")
           .eq("pet_id", userId)
           .single();
 

@@ -56,6 +56,8 @@ export default function ActionBar({ setChatMessage }) {
     setChatMessage(message); // Update chat message in LeftPane
   };
 
+  const handleFeed = () => [setChatMessage("❤️ 🐜")];
+
   return (
     <div id="action-bar" className="rounded px-5">
       <div
@@ -66,6 +68,7 @@ export default function ActionBar({ setChatMessage }) {
         <button
           type="button"
           className="action-btn btn btn-outline-secondary px-5 py-4"
+          onClick={handleFeed}
         >
           <span className="fs-5">🐜</span> <br />
           Feed

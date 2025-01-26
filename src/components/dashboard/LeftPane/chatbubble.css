@@ -1,33 +1,33 @@
 .chat-bubble {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -150%);
-    background-color: #f8f9fa;
-    border: 2px solid #d1d5db;
-    border-radius: 12px;
-    padding: 10px 15px;
-    max-width: 200px;
-    font-size: 14px;
-    color: #333;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    z-index: 10;
-  }
-  
-  .bubble-content {
-    font-weight: bold;
-  }
-  
-  .bubble-arrow {
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-top: 10px solid #f8f9fa;
-  }
-  
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -150%);
+  background-color: #f8f9fa;
+  border: 2px solid #d1d5db;
+  border-radius: 12px;
+  padding: 10px 15px;
+  max-width: 200px;
+  font-size: 14px;
+  color: #333;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  z-index: 10;
+}
+
+.bubble-content {
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.bubble-arrow {
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid #f8f9fa;
+}

@@ -18,4 +18,31 @@
 #right-pane {
   height: 100vh;
   overflow-y: scroll !important;
+  position: relative;
+  height: 100%;
+}
+
+.add-task-container {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+
+.add-task-container .btn {
+  border-radius: 50px;
+  padding: 10px 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.task-instr-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: black;
+  padding: 0rem;
+}
+
+.tasks-list-container {
+  max-height: 700px; 
+  overflow-y: auto;
+  padding-right: 10px;
 }

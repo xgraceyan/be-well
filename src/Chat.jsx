@@ -1,8 +1,8 @@
-
+import { usePetData } from "./UserData";
 
 export function printMoodWords() {
 
-    const petMood = usePetData()?.mood;
+    const petData = usePetData();
 
     const encouragingWords = ["Good luck! You’re going to do great.",
         "Break a leg! Go out there and wow them.", 
@@ -33,7 +33,7 @@ export function printMoodWords() {
         "I feel like I have a cloud hanging over me.", "I’m at a low ebb.",
         "I feel dispirited."]
 
-    if (petMood > 1) {
+    if (petData?.mood > 1) {
         return encouragingWords[Math.random(0, encouragingWords.length())]
     }
     else {
@@ -41,3 +41,4 @@ export function printMoodWords() {
     }
 
 }
+

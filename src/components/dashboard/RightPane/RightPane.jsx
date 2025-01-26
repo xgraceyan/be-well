@@ -56,6 +56,7 @@ function RightPane() {
           .from("Tasks Log")
           .select("task_id, task_name, date")
           .eq("pet_id", accountUuid)
+          .eq("completed", "false")
           .order("date", { ascending: true });
 
         if (error) {
@@ -111,7 +112,13 @@ function RightPane() {
 
             return (
               <div>
-                <TaskSubmitPrompt id={task.task_id} key={task.task_id} taskID={task.task_id} onTaskDelete={handleTaskDelete} petID={accountUuid} />
+                <TaskSubmitPrompt
+                  id={task.task_id}
+                  key={task.task_id}
+                  taskID={task.task_id}
+                  onTaskDelete={handleTaskDelete}
+                  petID={accountUuid}
+                />
                 <TasksCard
                   key={index}
                   id={task.task_id}

@@ -4,6 +4,7 @@ import TasksCard from "./TasksCard";
 import "./rightpane.css";
 import { AccountStore } from "../../../store/AccountStore";
 import TaskSubmitPrompt from "./TaskSubmitPrompt";
+import moment from "moment";
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_API_URL,
@@ -56,6 +57,7 @@ function RightPane() {
           .from("Tasks Log")
           .select("task_id, task_name, date")
           .eq("pet_id", accountUuid)
+          .eq("completed", "false")
           .order("date", { ascending: true });
 
         if (error) {
@@ -126,44 +128,42 @@ function RightPane() {
   return (
     <div id="right-pane" className="bg-color">
       <div className="container">
-      <div className="tasks-list-container">
-        <h1 className="title-container text-light">beWell</h1>
-        <div className="d-grid gap-3">
-        
-          {tasks.map((task) => {
-            let emoji = "✅";
-            if (
-              task.task_name.toLowerCase().includes("dinner") ||
-              task.task_name.toLowerCase().includes("lunch") ||
-              task.task_name.toLowerCase().includes("breakfast")
-            ) {
-              emoji = "🍽️";
-            } else if (task.task_name.toLowerCase().includes("medication")) {
-              emoji = "💊";
-            }
+        <div className="tasks-list-container">
+          <h1 className="title-container text-light">beWell</h1>
+          <div className="d-grid gap-3">
+            {tasks.map((task) => {
+              let emoji = "✅";
+              if (
+                task.task_name.toLowerCase().includes("dinner") ||
+                task.task_name.toLowerCase().includes("lunch") ||
+                task.task_name.toLowerCase().includes("breakfast")
+              ) {
+                emoji = "🍽️";
+              } else if (task.task_name.toLowerCase().includes("medication")) {
+                emoji = "💊";
+              }
 
-            return (
-              <div key={task.task_id}>
-                <TaskSubmitPrompt
-                  id={task.task_id}
-                  taskID={task.task_id}
-                  onTaskDelete={handleTaskDelete}
-                />
-                <TasksCard
-                  id={task.task_id}
-                  cardData={{
-                    emoji: emoji,
-                    title: task.task_name,
-                    desc: new Date(task.date).toLocaleTimeString([], {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    }),
-                  }}
-                />
-              </div>
-            );
-          })}
-        </div>
+              return (
+                <div>
+                  <TaskSubmitPrompt
+                    id={task.task_id}
+                    key={task.task_id}
+                    taskID={task.task_id}
+                    onTaskDelete={handleTaskDelete}
+                    petID={accountUuid}
+                  />
+                  <TasksCard
+                    id={task.task_id}
+                    cardData={{
+                      emoji: emoji,
+                      title: task.task_name,
+                      desc: moment(task.date.toString()).utc().format("LT"),
+                    }}
+                  />
+                </div>
+              );
+            })}
+          </div>
         </div>
         <div className="add-task-container">
           <button
@@ -192,9 +192,7 @@ function RightPane() {
               <form onSubmit={handleAddTask}>
                 <div className="modal-body">
                   <div className="mb-3">
-                  <span className="task-instr-label">
-                      Task Name
-                    </span>
+                    <span className="task-instr-label">Task Name</span>
                     <input
                       type="text"
                       className="form-control"
@@ -205,9 +203,7 @@ function RightPane() {
                     />
                   </div>
                   <div className="mb-3">
-                    <span className="task-instr-label">
-                      Task Time
-                    </span>
+                    <span className="task-instr-label">Task Time</span>
                     <input
                       type="datetime-local"
                       className="form-control"
@@ -219,7 +215,11 @@ function RightPane() {
                   </div>
                 </div>
                 <div className="modal-footer">
-                  <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={() => setShowModal(false)}
+                  >
                     Cancel
                   </button>
                   <button type="submit" className="btn btn-primary">

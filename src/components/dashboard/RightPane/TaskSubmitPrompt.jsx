@@ -59,6 +59,18 @@ export default function TaskSubmitPrompt({ id, taskID, onTaskDelete, petID }) {
         } else {
           console.log(`Task deleted successfully: ` + taskID);
 
+          const base64Image = await imageToBase64(file);
+
+          const { errorImage } = await supabase
+            .from("Tasks Log")
+            .update({ image: base64Image })
+            .eq("task_id", taskID);
+
+          if (errorImage) {
+            console.error("Error updating task image:", error);
+            return;
+          }
+
           onTaskDelete(taskID); // Remove the task from the UI
 
           // increase the mood of the pet by 1 as long as the mood is less than 5
@@ -85,6 +97,8 @@ export default function TaskSubmitPrompt({ id, taskID, onTaskDelete, petID }) {
               return;
             }
           }
+
+          
 
           // refresh the entire page
           window.location.reload();

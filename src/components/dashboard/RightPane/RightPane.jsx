@@ -80,7 +80,7 @@ function RightPane() {
 
   const handleTaskDelete = (deletedTaskId) => {
     setTasks((prevTasks) =>
-      prevTasks.filter((task) => task.task_id !== deletedTaskId)
+      prevTasks.filter((task) => task.completed == "false")
     );
   };
 

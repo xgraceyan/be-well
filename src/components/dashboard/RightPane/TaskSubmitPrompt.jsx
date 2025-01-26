@@ -50,7 +50,7 @@ export default function TaskSubmitPrompt({ id, taskID, onTaskDelete, petID }) {
         // Delete the task from Supabase
         const { error } = await supabase
           .from("Tasks Log") // Replace "tasks" with your actual table name
-          .delete()
+          .update({ completed: "true"})
           .eq("task_id", taskID); // Use the `id` prop passed to the component
         
         if (error) {
@@ -58,6 +58,18 @@ export default function TaskSubmitPrompt({ id, taskID, onTaskDelete, petID }) {
           return;
         } else {
           console.log(`Task deleted successfully: ` + taskID);
+
+          const base64Image = await imageToBase64(file);
+
+          const { errorImage } = await supabase
+            .from("Tasks Log")
+            .update({ image: base64Image })
+            .eq("task_id", taskID);
+
+          if (errorImage) {
+            console.error("Error updating task image:", error);
+            return;
+          }
 
           onTaskDelete(taskID); // Remove the task from the UI
 
@@ -85,6 +97,8 @@ export default function TaskSubmitPrompt({ id, taskID, onTaskDelete, petID }) {
               return;
             }
           }
+
+          
 
           // refresh the entire page
           window.location.reload();

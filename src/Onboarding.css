@@ -1,0 +1,121 @@
+.onboarding-background {
+    background-color: #AA7071;
+    height: 100vh;
+    padding: 2rem;
+}
+
+.onboarding-header {
+    background-color: #494545;
+    color: #FFFFFF;
+    text-align: center;
+    padding: 1rem;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.onboarding-header h2 {
+    font-weight: 800;
+    margin-bottom: 0.2rem;
+}
+
+.onboarding-header h3 {
+    font-weight: 700;
+}
+.onboarding-window { 
+    background-color: #585454;
+    border-radius: 0px 0px 10px 10px;
+    height: 75vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.onboarding-delete-button {
+    background-color: #585454;
+    border-radius: 25px;
+    color: white;
+    padding: 3px 7px 3px 7px;
+    border: none;
+}
+
+.onboarding-buttons {
+    background-color: #494545;
+    color:white;
+    border-radius: 25px;
+    padding: 3px 10px;
+    border: none;
+    margin-bottom: 7px;
+}
+
+.onboarding-save-button {
+    background-color: #494545;
+    color:white;
+    border-radius: 25px;
+    padding: 3px 10px;
+    border: none;
+    position:relative;
+    left: 95%;
+}
+
+
+.pick-name-pet-text {
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 800;
+    padding-right: 1rem;
+}
+
+label {
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 800;
+    padding-right: 1rem;
+    padding: 1rem;
+}
+
+.pick-name-container {
+    width: 100%;
+    display: flex;
+    white-space: nowrap;
+    padding-bottom: 3rem;
+}
+
+.onboarding-form-div {
+    padding: 1rem;
+}
+
+input {
+    border: none; 
+    border-radius: 20px; 
+    background-color: #3a3a3a; 
+    color: white; 
+    font-size: 1rem; 
+    outline: none; 
+    box-shadow: none; 
+    width: 100%;
+}
+
+
+input::placeholder {
+    font-size: 1rem;
+}
+
+.medications-container h3 {
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 800;
+    padding-right: 1rem;
+}
+
+.input-box {
+    background-color: #494545;
+    border-radius: 25px;
+}
+
+input[type=text] {
+    text-indent: 10px;
+    font-size: 16px;
+}
+
+input[type=time] {
+    padding: 0px 15px;
+}

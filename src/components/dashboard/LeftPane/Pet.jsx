@@ -7,12 +7,12 @@ import { usePetData } from "../../../UserData";
 
 function Pet() {
   var photoSrc = null
-  const petMood = usePetData();
+  var petMood = usePetData();
   console.log(petMood?.mood)
-  if (petMood == 5) {
+  if (petMood?.mood == 5) {
     photoSrc = anteater_happy
   }
-  else if (petMood?.mood > 1) {
+  else if (petMood?.mood > 1 && petMood?.mood) {
     photoSrc = anteater
   }
   else {

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { usePetData } from "../../../UserData";
 
-export default function ActionBar() {
+export default function ActionBar({ setChatMessage }) {
   const petData = usePetData();
   const [count, setCount] = useState(0);
 
@@ -49,13 +49,11 @@ export default function ActionBar() {
     // Increment count and wrap around the respective words array
     setCount((prevCount) => prevCount + 1);
 
-    const words =
-      petData?.mood > 2 ? encouragingWords : sadWords;
+    const words = petData?.mood > 2 ? encouragingWords : sadWords;
 
     // Compute the current message based on the updated count
     const message = words[count % words.length];
-    console.log(message);
-    return message;
+    setChatMessage(message); // Update chat message in LeftPane
   };
 
   return (

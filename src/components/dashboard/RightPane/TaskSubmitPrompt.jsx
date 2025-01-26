@@ -145,9 +145,9 @@ export default function TaskSubmitPrompt({ id, taskID, onTaskDelete, petID }) {
                     Image was not verified — try again!
                   </div>
                 )}
-                <label for="formFile" class="form-label">
+                <span className="task-instr-label">
                   Upload your image
-                </label>
+                </span>
                 <input
                   class="form-control"
                   type="file"

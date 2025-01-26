@@ -4,6 +4,7 @@ import TasksCard from "./TasksCard";
 import "./rightpane.css";
 import { AccountStore } from "../../../store/AccountStore";
 import TaskSubmitPrompt from "./TaskSubmitPrompt";
+import moment from "moment";
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_API_URL,
@@ -156,10 +157,7 @@ function RightPane() {
                     cardData={{
                       emoji: emoji,
                       title: task.task_name,
-                      desc: new Date(task.date).toLocaleTimeString([], {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      }),
+                      desc: moment(task.date.toString()).utc().format("LT"),
                     }}
                   />
                 </div>

@@ -83,6 +83,7 @@ export default function Onboarding() {
                         pet_id: user.id,
                         task_name: med.name,
                         date: medDate.toISOString(), // Convert to ISO string for the database
+                        task_type: "Medication",
                     });
 
                 if (taskError) {
